@@ -10,6 +10,8 @@ class CompartmentMapPlugin {
         chunk.getModules().forEach(module => {
           // console.log(module.dependencies)
           const id = module.identifier()
+          // dependencies are not necesarily modules, its more like a list of
+          // transforms that need to be applied including rewriting dependency names
           const dependencies = new Set(
             module.dependencies
             .map(d => compilation.moduleGraph.getModule(d))
@@ -17,17 +19,18 @@ class CompartmentMapPlugin {
             .map(m => m.identifier())
           )
           // const source = compilation.codeGenerationResults.getSource(module, chunk.runtime, module.type)
+          // we dont actually want the original source
+          // we may need to disable some builtin plugins to get a useable transformed source
           const source = module.originalSource()
           // console.log(source)
           modules[id] = {
             id,
-            // size: module.size(),
             dependencies: Array.from(dependencies),
             type: module.type,
             // source: module.type === 'javascript/auto' && module.source(),
             // source: module.type === 'javascript/auto' && module._source,
             source: source && source.source(),
-            keys: [...Reflect.ownKeys(module), ...Reflect.ownKeys(module.__proto__)],
+            // keys: [...Reflect.ownKeys(module), ...Reflect.ownKeys(module.__proto__)],
           };
           // module.serialize({ write: (data) => console.log('serialize', data) })
           // console.log(Reflect.ownKeys(module.codeGeneration))
