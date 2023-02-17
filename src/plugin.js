@@ -1,5 +1,22 @@
+// some notes
+// - secure webpack builds
+// - webpack plugin for compartment map descriptors
+// - how to name a package
+//   - name: self name from package.json
+//   - label: https://github.com/endojs/endo/blob/89e71043c104e701d361bde14f9a5669492228e1/packages/compartment-mapper/src/node-modules.js#L358
+//   - path: https://github.com/endojs/endo/blob/89e71043c104e701d361bde14f9a5669492228e1/packages/compartment-mapper/src/node-modules.js#L311
+// webpack
+//   - identify entry module `chunk.entryModule`
+//   - maybe ignore chunks and use moduleGraph
+//   - use transformed source
+
+
 class CompartmentMapPlugin {
   apply(compiler) {
+    // cyclonedx-webpack-plugin used this hook
+    // compilation.hooks.afterOptimizeTree.tap(
+    //   pluginName,
+    //   (_, modules) => {
     compiler.hooks.emit.tapAsync("CompartmentMapPlugin", (compilation, callback) => {
       // compilation.chunkGraph.getChunkModulesIterable(compilation.chunks[0]).forEach(module => {
       //   // getChunkModules
