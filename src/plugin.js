@@ -104,9 +104,20 @@ class CompartmentMapPlugin {
           //   .map(d => compilation.moduleGraph.getModule(d))
           //   // ignore self references
           //   .filter(m => m !== module)
-
-          //   .map(m => m.identifier())
           // )
+          // for (const childModule of dependencies) {
+          //   const childId = childModule.identifier()
+          //   const depPackageData = getUnsafePackageDataForModule(childModule)
+          //   const depPackageName = depPackageData.name
+          //   // let scopeDescriptor = compartmentDescriptor.scopes[childId]
+          //   // if (!scopeDescriptor) {
+          //   //   scopeDescriptor = {
+          //   //     compartment: depPackageName,
+          //   //     module: childId,
+          //   //   }
+          //   //   compartmentDescriptor.scopes[childId] = scopeDescriptor
+          //   // }
+          // }
 
           // module.serialize({ write: (data) => console.log('serialize', data) })
           // console.log(Reflect.ownKeys(module.codeGeneration))
