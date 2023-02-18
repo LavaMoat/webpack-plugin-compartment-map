@@ -155,10 +155,12 @@ function getUnsafePackageDataForModule(module) {
     // webpack/runtime/define property getters
     // webpack/runtime/hasOwnProperty shorthand
     const id = module.identifier()
-    return {
-      name: `unknown:${id}`,
-      label: `unknown:${id}`,
-      filepath: `error://unknown:${id}`,
+    if (id.startsWith('webpack/')) {
+      return {
+        name: `webpack:${id}`,
+        label: `webpack:${id}`,
+        filepath: `webpack://${id}`,
+      }
     }
     throw new Error(`could not find file path for module ${id}`)
   }

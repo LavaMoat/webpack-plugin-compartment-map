@@ -431,13 +431,13 @@
       "types": {},
       "policy": null
     },
-    "unknown:webpack/runtime/compat get default export": {
-      "name": "unknown:webpack/runtime/compat get default export",
-      "label": "unknown:webpack/runtime/compat get default export",
-      "location": "error://unknown:webpack/runtime/compat get default export",
+    "webpack:webpack/runtime/compat get default export": {
+      "name": "webpack:webpack/runtime/compat get default export",
+      "label": "webpack:webpack/runtime/compat get default export",
+      "location": "webpack://webpack/runtime/compat get default export",
       "modules": {
         "webpack/runtime/compat get default export": {
-          "compartment": "unknown:webpack/runtime/compat get default export",
+          "compartment": "webpack:webpack/runtime/compat get default export",
           "module": "webpack/runtime/compat get default export",
           "parser": "runtime"
         }
@@ -447,13 +447,13 @@
       "types": {},
       "policy": null
     },
-    "unknown:webpack/runtime/define property getters": {
-      "name": "unknown:webpack/runtime/define property getters",
-      "label": "unknown:webpack/runtime/define property getters",
-      "location": "error://unknown:webpack/runtime/define property getters",
+    "webpack:webpack/runtime/define property getters": {
+      "name": "webpack:webpack/runtime/define property getters",
+      "label": "webpack:webpack/runtime/define property getters",
+      "location": "webpack://webpack/runtime/define property getters",
       "modules": {
         "webpack/runtime/define property getters": {
-          "compartment": "unknown:webpack/runtime/define property getters",
+          "compartment": "webpack:webpack/runtime/define property getters",
           "module": "webpack/runtime/define property getters",
           "parser": "runtime"
         }
@@ -463,13 +463,13 @@
       "types": {},
       "policy": null
     },
-    "unknown:webpack/runtime/hasOwnProperty shorthand": {
-      "name": "unknown:webpack/runtime/hasOwnProperty shorthand",
-      "label": "unknown:webpack/runtime/hasOwnProperty shorthand",
-      "location": "error://unknown:webpack/runtime/hasOwnProperty shorthand",
+    "webpack:webpack/runtime/hasOwnProperty shorthand": {
+      "name": "webpack:webpack/runtime/hasOwnProperty shorthand",
+      "label": "webpack:webpack/runtime/hasOwnProperty shorthand",
+      "location": "webpack://webpack/runtime/hasOwnProperty shorthand",
       "modules": {
         "webpack/runtime/hasOwnProperty shorthand": {
-          "compartment": "unknown:webpack/runtime/hasOwnProperty shorthand",
+          "compartment": "webpack:webpack/runtime/hasOwnProperty shorthand",
           "module": "webpack/runtime/hasOwnProperty shorthand",
           "parser": "runtime"
         }
