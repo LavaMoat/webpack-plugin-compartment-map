@@ -9,16 +9,23 @@
 //   - identify entry module `chunk.entryModule`
 //   - maybe ignore chunks and use moduleGraph
 //   - use transformed source
-const { existsSync } = require('fs')
-const { dirname, isAbsolute, join } = require('path')
+import { existsSync } from 'fs';
+import { dirname, isAbsolute, join } from 'path';
+import WebpackSources from "webpack-sources";
+import { createRequire } from 'node:module';
+import { writeZip } from '@endo/zip';
+const _require = createRequire(import.meta.url);
+const { RawSource } = WebpackSources;
+
 
 class CompartmentMapPlugin {
   apply(compiler) {
     // cyclonedx-webpack-plugin used this hook
-    // compilation.hooks.afterOptimizeTree.tap(
-    //   pluginName,
-    //   (_, modules) => {
-    compiler.hooks.emit.tapAsync("CompartmentMapPlugin", (compilation, callback) => {
+    //  compiler.hooks.thisCompilation.tap(...)
+    // followed by this hook
+    //  compilation.hooks.afterOptimizeTree.tap(...)
+    // thisCompilation: Executed while initializing the compilation, right before emitting the compilation event. This hook is not copied to child compilers.
+    compiler.hooks.emit.tapAsync("CompartmentMapPlugin", async (compilation, callback) => {
       // compilation.chunkGraph.getChunkModulesIterable(compilation.chunks[0]).forEach(module => {
       //   // getChunkModules
 
@@ -33,6 +40,7 @@ class CompartmentMapPlugin {
       // @property {Record<string, CompartmentDescriptor>} compartments
       // const modules = {}
       const entryModules = new Set()
+      const sources = {}
 
       for (const chunk of compilation.chunks) {
         for (const entryModule of compilation.chunkGraph.getChunkEntryModulesIterable(chunk)) {
@@ -44,7 +52,7 @@ class CompartmentMapPlugin {
           // const source = compilation.codeGenerationResults.getSource(module, chunk.runtime, module.type)
           // we dont actually want the original source
           // we may need to disable some builtin plugins to get a useable transformed source
-          // const source = module.originalSource()
+          const source = module.originalSource()
           // console.log(source)
           // modules[id] = {
           //   id,
@@ -57,7 +65,9 @@ class CompartmentMapPlugin {
           // };
           const packageData = getUnsafePackageDataForModule(module)
           const packageName = packageData.name
-          let compartmentDescriptor = compartmentMapDescriptor.compartments[packageName]
+          const packageLocation = packageData.filepath
+          let compartmentDescriptor = compartmentMapDescriptor.compartments[packageLocation]
+          let packageSources = sources[packageLocation]
           if (!compartmentDescriptor) {
             //   @property {string} label
             //   @property {Array<string>} [path] - shortest path of dependency names to this
@@ -72,14 +82,15 @@ class CompartmentMapPlugin {
             compartmentDescriptor = {
               name: packageName,
               label: packageData.label,
-              location: packageData.filepath,
+              location: packageLocation,
               modules: {},
               scopes: {},
               parsers: {},
               types: {},
-              policy: null,
+              // policy: null,
             }
-            compartmentMapDescriptor.compartments[packageName] = compartmentDescriptor
+            compartmentMapDescriptor.compartments[packageLocation] = compartmentDescriptor
+            packageSources = sources[packageLocation] = {}
           }
           // @property {string=} [compartment]
           // @property {string} [module]
@@ -89,10 +100,16 @@ class CompartmentMapPlugin {
           // @property {string} [exit]
           // @property {string} [deferredError]
           compartmentDescriptor.modules[id] = {
-            compartment: packageName,
+            compartment: packageLocation,
             module: id,
+            // location: module.resource,
+            // parser: module.type,
+          }
+
+          const moduleSourceBytes = source ? Buffer.from(source.source(), 'utf8') : Buffer.from([])
+          packageSources[id] = {
+            bytes: moduleSourceBytes,
             location: module.resource,
-            parser: module.type,
           }
 
           // need to populate scopes?
@@ -132,19 +149,47 @@ class CompartmentMapPlugin {
       const primaryEntryPackageData = getUnsafePackageDataForModule(primaryEntryModule)
       compartmentMapDescriptor.entry = {
         module: primaryEntryModule.identifier(),
-        compartment: primaryEntryPackageData.name,
+        compartment: primaryEntryPackageData.filepath,
       }
 
       const compartmentMapDescriptorSerialized = JSON.stringify(compartmentMapDescriptor, null, 2);
+      const compartmentMapBytes = Buffer.from(compartmentMapDescriptorSerialized, 'utf8');
       compilation.assets["compartment-map.json"] = {
         source: () => compartmentMapDescriptorSerialized,
         size: () => compartmentMapDescriptorSerialized.length
       };
 
+      const archive = writeZip();
+      await archive.write('compartment-map.json', compartmentMapBytes);
+      await addSourcesToArchive(archive, sources);
+      const bytes = await archive.snapshot();
+
+      compilation.assets["app.agar"] = new RawSource(Buffer.from(bytes));
+
       callback();
     });
   }
 }
+
+// borrowed from archive
+const resolveLocation = (rel, abs) => new URL(rel, abs).toString();
+async function addSourcesToArchive (archive, sources) {
+  for (const compartment of Object.keys(sources).sort()) {
+    const modules = sources[compartment];
+    const compartmentLocation = resolveLocation(`${compartment}/`, 'file:///');
+    for (const specifier of Object.keys(modules).sort()) {
+      const { bytes, location } = modules[specifier];
+      if (location !== undefined) {
+        const moduleLocation = resolveLocation(location, compartmentLocation);
+        const path = new URL(moduleLocation).pathname.slice(1); // elide initial "/"
+        if (bytes !== undefined) {
+          // eslint-disable-next-line no-await-in-loop
+          await archive.write(path, bytes);
+        }
+      }
+    }
+  }
+};
 
 // insecure self-name
 function getUnsafePackageDataForModule(module) {
@@ -187,7 +232,7 @@ function getUnsafePackageInfo (path) {
       try {
         return {
           path: packageJson,
-          packageJson: require(packageJson)
+          packageJson: _require(packageJson)
         }
       } catch {
         return undefined
@@ -203,4 +248,4 @@ function getUnsafePackageInfo (path) {
   return undefined
 }
 
-module.exports = CompartmentMapPlugin;
+export default CompartmentMapPlugin;

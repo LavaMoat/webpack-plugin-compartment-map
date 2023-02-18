@@ -1,6 +1,6 @@
-const BundleJsonPlugin = require('../src/plugin.js');
+import BundleJsonPlugin from '../src/plugin.js'
 
-module.exports = {
+export default {
   entry: './fixture-0/entry.js',
   plugins: [
     new BundleJsonPlugin()
