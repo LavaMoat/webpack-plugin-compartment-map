@@ -1,341 +1,294 @@
 {
-  "tags": [
-    "browser"
-  ],
   "entry": {
-    "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/entry.js",
-    "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/package.json"
+    "module": "./entry.js",
+    "compartment": "fixture-0-v1.0.0"
   },
   "compartments": {
-    "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/package.json": {
-      "name": "fixture-0",
-      "label": "fixture-0",
-      "location": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/package.json",
-      "modules": {
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/entry.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/entry.js"
-        }
-      },
-      "scopes": {},
-      "parsers": {},
-      "types": {}
-    },
-    "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json": {
+    "cowsayjs-v2.0.0": {
       "name": "cowsayjs",
-      "label": "cowsayjs",
-      "location": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
+      "label": "cowsayjs-v2.0.0",
+      "location": "cowsayjs-v2.0.0",
       "modules": {
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/lib/index.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/lib/index.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/lib/box.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/lib/box.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/lib/mode.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/lib/mode.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/lib/utils.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/lib/utils.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/index.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/index.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/default.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/default.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/apt.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/apt.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/beavis.zen.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/beavis.zen.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/blowfish.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/blowfish.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/bong.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/bong.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/bud-frogs.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/bud-frogs.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/bunny.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/bunny.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/calvin.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/calvin.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/cheese.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/cheese.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/cock.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/cock.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/cower.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/cower.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/daemon.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/daemon.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/dragon-and-cow.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/dragon-and-cow.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/dragon.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/dragon.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/duck.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/duck.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/elephant-in-snake.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/elephant-in-snake.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/elephant.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/elephant.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/eyes.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/eyes.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/flaming-sheep.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/flaming-sheep.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/fox.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/fox.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/ghostbusters.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/ghostbusters.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/gnu.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/gnu.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/head-in.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/head-in.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/hellokitty.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/hellokitty.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/kangaroo.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/kangaroo.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/kiss.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/kiss.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/kitty.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/kitty.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/koala.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/koala.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/kosh.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/kosh.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/luke-koala.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/luke-koala.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/mech-and-cow.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/mech-and-cow.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/meow.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/meow.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/milk.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/milk.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/moofasa.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/moofasa.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/moose.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/moose.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/mutilated.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/mutilated.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/pony-smaller.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/pony-smaller.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/pony.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/pony.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/ren.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/ren.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/satanic.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/satanic.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/sheep.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/sheep.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/skeleton.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/skeleton.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/small.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/small.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/snowman.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/snowman.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/sodomized.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/sodomized.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/stegosaurus.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/stegosaurus.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/stimpy.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/stimpy.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/supermilker.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/supermilker.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/surgery.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/surgery.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/suse.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/suse.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/telebears.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/telebears.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/three-eyes.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/three-eyes.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/turkey.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/turkey.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/turtle.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/turtle.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/tux.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/tux.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/udder.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/udder.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/unipony-smaller.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/unipony-smaller.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/unipony.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/unipony.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/vader-koala.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/vader-koala.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/vader.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/vader.cow.js"
-        },
-        "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/www.cow.js": {
-          "compartment": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/package.json",
-          "module": "/home/xyz/Development/webpack-plugin-compartment-map/test/fixture-0/node_modules/cowsayjs/cows/www.cow.js"
+        "./cows/apt.cow.js": {
+          "location": "cows/apt.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/beavis.zen.cow.js": {
+          "location": "cows/beavis.zen.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/blowfish.cow.js": {
+          "location": "cows/blowfish.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/bong.cow.js": {
+          "location": "cows/bong.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/bud-frogs.cow.js": {
+          "location": "cows/bud-frogs.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/bunny.cow.js": {
+          "location": "cows/bunny.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/calvin.cow.js": {
+          "location": "cows/calvin.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/cheese.cow.js": {
+          "location": "cows/cheese.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/cock.cow.js": {
+          "location": "cows/cock.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/cower.cow.js": {
+          "location": "cows/cower.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/daemon.cow.js": {
+          "location": "cows/daemon.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/default.cow.js": {
+          "location": "cows/default.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/dragon-and-cow.cow.js": {
+          "location": "cows/dragon-and-cow.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/dragon.cow.js": {
+          "location": "cows/dragon.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/duck.cow.js": {
+          "location": "cows/duck.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/elephant-in-snake.cow.js": {
+          "location": "cows/elephant-in-snake.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/elephant.cow.js": {
+          "location": "cows/elephant.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/eyes.cow.js": {
+          "location": "cows/eyes.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/flaming-sheep.cow.js": {
+          "location": "cows/flaming-sheep.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/fox.cow.js": {
+          "location": "cows/fox.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/ghostbusters.cow.js": {
+          "location": "cows/ghostbusters.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/gnu.cow.js": {
+          "location": "cows/gnu.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/head-in.cow.js": {
+          "location": "cows/head-in.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/hellokitty.cow.js": {
+          "location": "cows/hellokitty.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/index.js": {
+          "location": "cows/index.js",
+          "parser": "cjs"
+        },
+        "./cows/kangaroo.cow.js": {
+          "location": "cows/kangaroo.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/kiss.cow.js": {
+          "location": "cows/kiss.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/kitty.cow.js": {
+          "location": "cows/kitty.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/koala.cow.js": {
+          "location": "cows/koala.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/kosh.cow.js": {
+          "location": "cows/kosh.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/luke-koala.cow.js": {
+          "location": "cows/luke-koala.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/mech-and-cow.cow.js": {
+          "location": "cows/mech-and-cow.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/meow.cow.js": {
+          "location": "cows/meow.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/milk.cow.js": {
+          "location": "cows/milk.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/moofasa.cow.js": {
+          "location": "cows/moofasa.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/moose.cow.js": {
+          "location": "cows/moose.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/mutilated.cow.js": {
+          "location": "cows/mutilated.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/pony-smaller.cow.js": {
+          "location": "cows/pony-smaller.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/pony.cow.js": {
+          "location": "cows/pony.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/ren.cow.js": {
+          "location": "cows/ren.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/satanic.cow.js": {
+          "location": "cows/satanic.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/sheep.cow.js": {
+          "location": "cows/sheep.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/skeleton.cow.js": {
+          "location": "cows/skeleton.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/small.cow.js": {
+          "location": "cows/small.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/snowman.cow.js": {
+          "location": "cows/snowman.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/sodomized.cow.js": {
+          "location": "cows/sodomized.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/stegosaurus.cow.js": {
+          "location": "cows/stegosaurus.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/stimpy.cow.js": {
+          "location": "cows/stimpy.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/supermilker.cow.js": {
+          "location": "cows/supermilker.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/surgery.cow.js": {
+          "location": "cows/surgery.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/suse.cow.js": {
+          "location": "cows/suse.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/telebears.cow.js": {
+          "location": "cows/telebears.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/three-eyes.cow.js": {
+          "location": "cows/three-eyes.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/turkey.cow.js": {
+          "location": "cows/turkey.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/turtle.cow.js": {
+          "location": "cows/turtle.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/tux.cow.js": {
+          "location": "cows/tux.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/udder.cow.js": {
+          "location": "cows/udder.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/unipony-smaller.cow.js": {
+          "location": "cows/unipony-smaller.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/unipony.cow.js": {
+          "location": "cows/unipony.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/vader-koala.cow.js": {
+          "location": "cows/vader-koala.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/vader.cow.js": {
+          "location": "cows/vader.cow.js",
+          "parser": "cjs"
+        },
+        "./cows/www.cow.js": {
+          "location": "cows/www.cow.js",
+          "parser": "cjs"
+        },
+        "./lib/box.js": {
+          "location": "lib/box.js",
+          "parser": "cjs"
+        },
+        "./lib/index.js": {
+          "location": "lib/index.js",
+          "parser": "cjs"
+        },
+        "./lib/mode.js": {
+          "location": "lib/mode.js",
+          "parser": "cjs"
+        },
+        "./lib/utils.js": {
+          "location": "lib/utils.js",
+          "parser": "cjs"
         }
-      },
-      "scopes": {},
-      "parsers": {},
-      "types": {}
+      }
     },
-    "webpack://webpack/runtime/compat get default export": {
-      "name": "webpack:webpack/runtime/compat get default export",
-      "label": "webpack:webpack/runtime/compat get default export",
-      "location": "webpack://webpack/runtime/compat get default export",
+    "fixture-0-v1.0.0": {
+      "name": "fixture-0",
+      "label": "fixture-0-v1.0.0",
+      "location": "fixture-0-v1.0.0",
       "modules": {
-        "webpack/runtime/compat get default export": {
-          "compartment": "webpack://webpack/runtime/compat get default export",
-          "module": "webpack/runtime/compat get default export"
+        "./entry.js": {
+          "location": "entry.js",
+          "parser": "mjs"
+        },
+        "cowsayjs": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./lib/index.js"
         }
-      },
-      "scopes": {},
-      "parsers": {},
-      "types": {}
-    },
-    "webpack://webpack/runtime/define property getters": {
-      "name": "webpack:webpack/runtime/define property getters",
-      "label": "webpack:webpack/runtime/define property getters",
-      "location": "webpack://webpack/runtime/define property getters",
-      "modules": {
-        "webpack/runtime/define property getters": {
-          "compartment": "webpack://webpack/runtime/define property getters",
-          "module": "webpack/runtime/define property getters"
-        }
-      },
-      "scopes": {},
-      "parsers": {},
-      "types": {}
-    },
-    "webpack://webpack/runtime/hasOwnProperty shorthand": {
-      "name": "webpack:webpack/runtime/hasOwnProperty shorthand",
-      "label": "webpack:webpack/runtime/hasOwnProperty shorthand",
-      "location": "webpack://webpack/runtime/hasOwnProperty shorthand",
-      "modules": {
-        "webpack/runtime/hasOwnProperty shorthand": {
-          "compartment": "webpack://webpack/runtime/hasOwnProperty shorthand",
-          "module": "webpack/runtime/hasOwnProperty shorthand"
-        }
-      },
-      "scopes": {},
-      "parsers": {},
-      "types": {}
+      }
     }
   }
 }

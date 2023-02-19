@@ -6,7 +6,11 @@ import { makeReadPowers } from '@endo/compartment-mapper/node-powers.js';
 
 lockdown()
 
-main()
+main().catch(err => {
+  console.error(err);
+  debugger
+  process.exit(1);
+})
 
 async function main () {
   const archiveFixture = new URL('dist/app.agar', import.meta.url).toString();

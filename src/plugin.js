@@ -10,7 +10,7 @@
 //   - maybe ignore chunks and use moduleGraph
 //   - use transformed source
 import { existsSync } from 'fs';
-import { dirname, isAbsolute, join } from 'path';
+import { dirname, isAbsolute, join, relative } from 'path';
 import WebpackSources from "webpack-sources";
 import { createRequire } from 'node:module';
 import { writeZip } from '@endo/zip';
@@ -30,7 +30,7 @@ class CompartmentMapPlugin {
       //   // getChunkModules
 
       const compartmentMapDescriptor = {
-        tags: ['browser'],
+        // tags: ['browser'],
         // set at end of module graph walk
         entry: null,
         compartments: {},
@@ -65,9 +65,10 @@ class CompartmentMapPlugin {
           // };
           const packageData = getUnsafePackageDataForModule(module)
           const packageName = packageData.name
+          const packageLabel = packageData.label
           const packageLocation = packageData.filepath
-          let compartmentDescriptor = compartmentMapDescriptor.compartments[packageLocation]
-          let packageSources = sources[packageLocation]
+          let compartmentDescriptor = compartmentMapDescriptor.compartments[packageLabel]
+          let packageSources = sources[packageLabel]
           if (!compartmentDescriptor) {
             //   @property {string} label
             //   @property {Array<string>} [path] - shortest path of dependency names to this
@@ -81,16 +82,30 @@ class CompartmentMapPlugin {
             //   @property {object} policy - policy specific to compartment
             compartmentDescriptor = {
               name: packageName,
-              label: packageData.label,
-              location: packageLocation,
+              label: packageLabel,
+              // mapCompartment/archives (?) use the label for the location
+              // location: packageLocation,
+              location: packageLabel,
               modules: {},
-              scopes: {},
-              parsers: {},
-              types: {},
+              // scopes: {},
+              // parsers: {},
+              // types: {},
               // policy: null,
             }
-            compartmentMapDescriptor.compartments[packageLocation] = compartmentDescriptor
-            packageSources = sources[packageLocation] = {}
+            compartmentMapDescriptor.compartments[packageLabel] = compartmentDescriptor
+            packageSources = sources[packageLabel] = {}
+          }
+
+          const { plain: moduleLocation, relative: moduleLabel } = getModuleLocationRelativeToPackage(module, packageLocation)
+          let parser
+          if (module.type === 'javascript/auto') {
+            // parser = 'pre-cjs-json'
+            parser = 'cjs'
+          } else if (module.type === 'javascript/esm') {
+            // parser = 'pre-mjs-json'
+            parser = 'mjs'
+          } else {
+            parser = module.type
           }
           // @property {string=} [compartment]
           // @property {string} [module]
@@ -99,18 +114,31 @@ class CompartmentMapPlugin {
           // @property {string} [sha512] in base 16, hex
           // @property {string} [exit]
           // @property {string} [deferredError]
-          compartmentDescriptor.modules[id] = {
-            compartment: packageLocation,
-            module: id,
-            // location: module.resource,
-            // parser: module.type,
+          const moduleDescriptor = {
+            location: moduleLocation,
+            parser,
           }
+          compartmentDescriptor.modules[moduleLabel] = moduleDescriptor
+          // compartmentDescriptor.modules[moduleLabel] = {
+          //   compartment: packageLabel,
+          //   module: id,
+          //   // location: module.resource,
+          //   // parser: module.type,
+          // }
 
           const moduleSourceBytes = source ? Buffer.from(source.source(), 'utf8') : Buffer.from([])
-          packageSources[id] = {
+          packageSources[moduleLabel] = {
             bytes: moduleSourceBytes,
-            location: module.resource,
+            location: moduleLabel,
           }
+          // packageSources[candidateSpecifier] = {
+          //   location: packageRelativeLocation,
+          //   sourceLocation: moduleLocation,
+          //   parser,
+          //   bytes: transformedBytes,
+          //   record: concreteRecord,
+          //   sha512,
+          // };
 
           // need to populate scopes?
           // dependencies are not necesarily modules, its more like a list of
@@ -123,18 +151,36 @@ class CompartmentMapPlugin {
           //   .filter(m => m !== module)
           // )
           // for (const childModule of dependencies) {
-          //   const childId = childModule.identifier()
-          //   const depPackageData = getUnsafePackageDataForModule(childModule)
-          //   const depPackageName = depPackageData.name
-          //   // let scopeDescriptor = compartmentDescriptor.scopes[childId]
-          //   // if (!scopeDescriptor) {
-          //   //   scopeDescriptor = {
-          //   //     compartment: depPackageName,
-          //   //     module: childId,
-          //   //   }
-          //   //   compartmentDescriptor.scopes[childId] = scopeDescriptor
-          //   // }
-          // }
+          for (const dependency of module.dependencies) {
+            const depModule = compilation.moduleGraph.getModule(dependency)
+            if (depModule === module) continue
+            // console.log(dependency, Reflect.ownKeys(dependency))
+            // console.log(Reflect.ownKeys(dependency))
+            // console.log(dependency.rawRequest, dependency.request)
+            const depPackageData = getUnsafePackageDataForModule(depModule)
+            const depPackageLocation = depPackageData.filepath
+            // is new foreign package?
+            if (depPackageLocation !== packageLocation) {
+              // foreign compartment
+              const depPackageSpecifier = dependency.request
+              if (compartmentDescriptor.modules[depPackageSpecifier] === undefined) {
+                const depPackageLabel = depPackageData.label
+                const { relative: depLabel } = getModuleLocationRelativeToPackage(depModule, depPackageLocation)
+                compartmentDescriptor.modules[depPackageSpecifier] = {
+                  compartment: depPackageLabel,
+                  module: depLabel,
+                }
+              }
+            }
+            // let scopeDescriptor = compartmentDescriptor.scopes[childId]
+            // if (!scopeDescriptor) {
+            //   scopeDescriptor = {
+            //     compartment: depPackageName,
+            //     module: childId,
+            //   }
+            //   compartmentDescriptor.scopes[childId] = scopeDescriptor
+            // }
+          }
 
           // module.serialize({ write: (data) => console.log('serialize', data) })
           // console.log(Reflect.ownKeys(module.codeGeneration))
@@ -147,9 +193,10 @@ class CompartmentMapPlugin {
       }
       const primaryEntryModule = entryModules.values().next().value
       const primaryEntryPackageData = getUnsafePackageDataForModule(primaryEntryModule)
+      const { relative: entrySpecifier } = getModuleLocationRelativeToPackage(primaryEntryModule, primaryEntryPackageData.filepath)
       compartmentMapDescriptor.entry = {
-        module: primaryEntryModule.identifier(),
-        compartment: primaryEntryPackageData.filepath,
+        module: entrySpecifier,
+        compartment: primaryEntryPackageData.label,
       }
 
       const compartmentMapDescriptorSerialized = JSON.stringify(compartmentMapDescriptor, null, 2);
@@ -171,7 +218,17 @@ class CompartmentMapPlugin {
   }
 }
 
-// borrowed from archive
+function getModuleLocationRelativeToPackage (module, packageLocation) {
+  if (module.resource === undefined) {
+    const id = module.identifier()
+    return { plain: id, relative: id }
+  }
+  const locPlain = relative(packageLocation, module.resource)
+  const locRelative = locPlain.startsWith('.') ? locPlain : `./${locPlain}`
+  return { plain: locPlain, relative: locRelative }
+}
+
+// borrowed from @endo/compartment-mapper/src/archive.js
 const resolveLocation = (rel, abs) => new URL(rel, abs).toString();
 async function addSourcesToArchive (archive, sources) {
   for (const compartment of Object.keys(sources).sort()) {
@@ -217,9 +274,10 @@ function getUnsafePackageDataForModule(module) {
   if (!packageJson.name) {
     throw new Error(`package.json for module ${module.identifier()} is missing a name`)
   }
+  const label = `${packageJson.name}-v${packageJson.version}`
   return {
     name: packageJson.name,
-    label: packageJson.name,
+    label: label,
     filepath: packageDescription.path,
   }
 }
@@ -231,7 +289,7 @@ function getUnsafePackageInfo (path) {
     if (existsSync(packageJson)) {
       try {
         return {
-          path: packageJson,
+          path,
           packageJson: _require(packageJson)
         }
       } catch {

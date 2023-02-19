@@ -1,5 +1,6 @@
 {
   "name": "fixture-0",
+  "type": "module",
   "dependencies": {
     "cowsayjs": "^2.0.0"
   },
