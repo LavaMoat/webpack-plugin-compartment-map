@@ -14,6 +14,21 @@ import { dirname, isAbsolute, join, relative } from 'path';
 import WebpackSources from "webpack-sources";
 import { createRequire } from 'node:module';
 import { writeZip } from '@endo/zip';
+import parserJson from '../lib/compartment-mapper/parse-json.js';
+import parserText from '../lib/compartment-mapper/parse-text.js';
+import parserBytes from '../lib/compartment-mapper/parse-bytes.js';
+import parserArchiveCjs from '../lib/compartment-mapper/parse-archive-cjs.js';
+import parserArchiveMjs from '../lib/compartment-mapper/parse-archive-mjs.js';
+  const parserForLanguage = {
+    mjs: parserArchiveMjs,
+    'pre-mjs-json': parserArchiveMjs,
+    cjs: parserArchiveCjs,
+    'pre-cjs-json': parserArchiveCjs,
+    json: parserJson,
+    text: parserText,
+    bytes: parserBytes,
+  };
+
 const _require = createRequire(import.meta.url);
 const { RawSource } = WebpackSources;
 
@@ -99,11 +114,11 @@ class CompartmentMapPlugin {
           const { plain: moduleLocation, relative: moduleLabel } = getModuleLocationRelativeToPackage(module, packageLocation)
           let parser
           if (module.type === 'javascript/auto') {
-            // parser = 'pre-cjs-json'
-            parser = 'cjs'
+            parser = 'pre-cjs-json'
+            // parser = 'cjs'
           } else if (module.type === 'javascript/esm') {
-            // parser = 'pre-mjs-json'
-            parser = 'mjs'
+            parser = 'pre-mjs-json'
+            // parser = 'mjs'
           } else {
             parser = module.type
           }
@@ -127,18 +142,27 @@ class CompartmentMapPlugin {
           // }
 
           const moduleSourceBytes = source ? Buffer.from(source.source(), 'utf8') : Buffer.from([])
+          // packageSources[moduleLabel] = {
+          //   bytes: moduleSourceBytes,
+          //   location: moduleLabel,
+          // }
+
+          const { parser: finalParser, transformedBytes, concreteRecord } = await processModuleSource(
+            parser,
+            moduleSourceBytes,
+            moduleLabel,
+            moduleLocation,
+            packageLocation,
+          )
+
           packageSources[moduleLabel] = {
-            bytes: moduleSourceBytes,
-            location: moduleLabel,
-          }
-          // packageSources[candidateSpecifier] = {
-          //   location: packageRelativeLocation,
-          //   sourceLocation: moduleLocation,
-          //   parser,
-          //   bytes: transformedBytes,
-          //   record: concreteRecord,
-          //   sha512,
-          // };
+            location: moduleLocation,
+            sourceLocation: moduleLocation,
+            parser: finalParser,
+            bytes: transformedBytes,
+            record: concreteRecord,
+            // sha512,
+          };
 
           // need to populate scopes?
           // dependencies are not necesarily modules, its more like a list of
@@ -159,15 +183,27 @@ class CompartmentMapPlugin {
             // console.log(dependency.rawRequest, dependency.request)
             const depPackageData = getUnsafePackageDataForModule(depModule)
             const depPackageLocation = depPackageData.filepath
-            // is new foreign package?
+            const depSpecifier = dependency.request
+            // check if foreign package
             if (depPackageLocation !== packageLocation) {
-              // foreign compartment
-              const depPackageSpecifier = dependency.request
-              if (compartmentDescriptor.modules[depPackageSpecifier] === undefined) {
+              // check if recorded yet
+              if (compartmentDescriptor.modules[depSpecifier] === undefined) {
                 const depPackageLabel = depPackageData.label
                 const { relative: depLabel } = getModuleLocationRelativeToPackage(depModule, depPackageLocation)
-                compartmentDescriptor.modules[depPackageSpecifier] = {
+                compartmentDescriptor.modules[depSpecifier] = {
                   compartment: depPackageLabel,
+                  module: depLabel,
+                }
+              }
+            } else {
+              // domestic package
+              const resolvedLabel = join(dirname(moduleLocation), depSpecifier)
+              const relativeLabel = resolvedLabel.startsWith('.') ? resolvedLabel : `./${resolvedLabel}`
+              // check if raw specifier recorded yet
+              if (compartmentDescriptor.modules[relativeLabel] === undefined) {
+                const { relative: depLabel } = getModuleLocationRelativeToPackage(depModule, depPackageLocation)
+                compartmentDescriptor.modules[relativeLabel] = {
+                  compartment: packageLabel,
                   module: depLabel,
                 }
               }
@@ -216,6 +252,35 @@ class CompartmentMapPlugin {
       callback();
     });
   }
+}
+
+async function processModuleSource (
+  language,
+  moduleBytes,
+  candidateSpecifier,
+  moduleLocation,
+  packageLocation,
+  // readPowers,
+) {
+  const parse = async (bytes, specifier, location, packageLocation, options) => {
+    const { parse } = parserForLanguage[language];
+    return parse(bytes, specifier, location, packageLocation, options);
+  }
+  const envelope = await parse(
+    moduleBytes,
+    candidateSpecifier,
+    moduleLocation,
+    packageLocation,
+    // {
+    //   readPowers,
+    // },
+  );
+  const {
+    parser,
+    bytes: transformedBytes,
+    record: concreteRecord,
+  } = envelope;
+  return { parser, transformedBytes, concreteRecord };
 }
 
 function getModuleLocationRelativeToPackage (module, packageLocation) {

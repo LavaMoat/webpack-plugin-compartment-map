@@ -11,267 +11,527 @@
       "modules": {
         "./cows/apt.cow.js": {
           "location": "cows/apt.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/beavis.zen.cow.js": {
           "location": "cows/beavis.zen.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/blowfish.cow.js": {
           "location": "cows/blowfish.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/bong.cow.js": {
           "location": "cows/bong.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/bud-frogs.cow.js": {
           "location": "cows/bud-frogs.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/bunny.cow.js": {
           "location": "cows/bunny.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/calvin.cow.js": {
           "location": "cows/calvin.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/cheese.cow.js": {
           "location": "cows/cheese.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/cock.cow.js": {
           "location": "cows/cock.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/cower.cow.js": {
           "location": "cows/cower.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/daemon.cow.js": {
           "location": "cows/daemon.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/default.cow.js": {
           "location": "cows/default.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/dragon-and-cow.cow.js": {
           "location": "cows/dragon-and-cow.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/dragon.cow.js": {
           "location": "cows/dragon.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/duck.cow.js": {
           "location": "cows/duck.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/elephant-in-snake.cow.js": {
           "location": "cows/elephant-in-snake.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/elephant.cow.js": {
           "location": "cows/elephant.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/eyes.cow.js": {
           "location": "cows/eyes.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/flaming-sheep.cow.js": {
           "location": "cows/flaming-sheep.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/fox.cow.js": {
           "location": "cows/fox.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/ghostbusters.cow.js": {
           "location": "cows/ghostbusters.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/gnu.cow.js": {
           "location": "cows/gnu.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/head-in.cow.js": {
           "location": "cows/head-in.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/hellokitty.cow.js": {
           "location": "cows/hellokitty.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/index.js": {
           "location": "cows/index.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
+        },
+        "./lib/utils": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./lib/utils.js"
+        },
+        "./cows/default.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/default.cow.js"
+        },
+        "./cows/apt.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/apt.cow.js"
+        },
+        "./cows/beavis.zen.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/beavis.zen.cow.js"
+        },
+        "./cows/blowfish.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/blowfish.cow.js"
+        },
+        "./cows/bong.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/bong.cow.js"
+        },
+        "./cows/bud-frogs.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/bud-frogs.cow.js"
+        },
+        "./cows/bunny.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/bunny.cow.js"
+        },
+        "./cows/calvin.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/calvin.cow.js"
+        },
+        "./cows/cheese.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/cheese.cow.js"
+        },
+        "./cows/cock.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/cock.cow.js"
+        },
+        "./cows/cower.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/cower.cow.js"
+        },
+        "./cows/daemon.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/daemon.cow.js"
+        },
+        "./cows/dragon-and-cow.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/dragon-and-cow.cow.js"
+        },
+        "./cows/dragon.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/dragon.cow.js"
+        },
+        "./cows/duck.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/duck.cow.js"
+        },
+        "./cows/elephant-in-snake.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/elephant-in-snake.cow.js"
+        },
+        "./cows/elephant.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/elephant.cow.js"
+        },
+        "./cows/eyes.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/eyes.cow.js"
+        },
+        "./cows/flaming-sheep.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/flaming-sheep.cow.js"
+        },
+        "./cows/fox.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/fox.cow.js"
+        },
+        "./cows/ghostbusters.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/ghostbusters.cow.js"
+        },
+        "./cows/gnu.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/gnu.cow.js"
+        },
+        "./cows/head-in.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/head-in.cow.js"
+        },
+        "./cows/hellokitty.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/hellokitty.cow.js"
+        },
+        "./cows/kangaroo.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/kangaroo.cow.js"
+        },
+        "./cows/kiss.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/kiss.cow.js"
+        },
+        "./cows/kitty.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/kitty.cow.js"
+        },
+        "./cows/koala.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/koala.cow.js"
+        },
+        "./cows/kosh.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/kosh.cow.js"
+        },
+        "./cows/luke-koala.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/luke-koala.cow.js"
+        },
+        "./cows/mech-and-cow.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/mech-and-cow.cow.js"
+        },
+        "./cows/meow.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/meow.cow.js"
+        },
+        "./cows/milk.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/milk.cow.js"
+        },
+        "./cows/moofasa.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/moofasa.cow.js"
+        },
+        "./cows/moose.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/moose.cow.js"
+        },
+        "./cows/mutilated.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/mutilated.cow.js"
+        },
+        "./cows/pony-smaller.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/pony-smaller.cow.js"
+        },
+        "./cows/pony.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/pony.cow.js"
+        },
+        "./cows/ren.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/ren.cow.js"
+        },
+        "./cows/satanic.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/satanic.cow.js"
+        },
+        "./cows/sheep.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/sheep.cow.js"
+        },
+        "./cows/skeleton.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/skeleton.cow.js"
+        },
+        "./cows/small.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/small.cow.js"
+        },
+        "./cows/snowman.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/snowman.cow.js"
+        },
+        "./cows/sodomized.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/sodomized.cow.js"
+        },
+        "./cows/stegosaurus.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/stegosaurus.cow.js"
+        },
+        "./cows/stimpy.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/stimpy.cow.js"
+        },
+        "./cows/supermilker.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/supermilker.cow.js"
+        },
+        "./cows/surgery.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/surgery.cow.js"
+        },
+        "./cows/suse.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/suse.cow.js"
+        },
+        "./cows/telebears.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/telebears.cow.js"
+        },
+        "./cows/three-eyes.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/three-eyes.cow.js"
+        },
+        "./cows/turkey.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/turkey.cow.js"
+        },
+        "./cows/turtle.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/turtle.cow.js"
+        },
+        "./cows/tux.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/tux.cow.js"
+        },
+        "./cows/udder.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/udder.cow.js"
+        },
+        "./cows/unipony-smaller.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/unipony-smaller.cow.js"
+        },
+        "./cows/unipony.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/unipony.cow.js"
+        },
+        "./cows/vader-koala.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/vader-koala.cow.js"
+        },
+        "./cows/vader.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/vader.cow.js"
+        },
+        "./cows/www.cow": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/www.cow.js"
         },
         "./cows/kangaroo.cow.js": {
           "location": "cows/kangaroo.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/kiss.cow.js": {
           "location": "cows/kiss.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/kitty.cow.js": {
           "location": "cows/kitty.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/koala.cow.js": {
           "location": "cows/koala.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/kosh.cow.js": {
           "location": "cows/kosh.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/luke-koala.cow.js": {
           "location": "cows/luke-koala.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/mech-and-cow.cow.js": {
           "location": "cows/mech-and-cow.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/meow.cow.js": {
           "location": "cows/meow.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/milk.cow.js": {
           "location": "cows/milk.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/moofasa.cow.js": {
           "location": "cows/moofasa.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/moose.cow.js": {
           "location": "cows/moose.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/mutilated.cow.js": {
           "location": "cows/mutilated.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/pony-smaller.cow.js": {
           "location": "cows/pony-smaller.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/pony.cow.js": {
           "location": "cows/pony.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/ren.cow.js": {
           "location": "cows/ren.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/satanic.cow.js": {
           "location": "cows/satanic.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/sheep.cow.js": {
           "location": "cows/sheep.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/skeleton.cow.js": {
           "location": "cows/skeleton.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/small.cow.js": {
           "location": "cows/small.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/snowman.cow.js": {
           "location": "cows/snowman.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/sodomized.cow.js": {
           "location": "cows/sodomized.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/stegosaurus.cow.js": {
           "location": "cows/stegosaurus.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/stimpy.cow.js": {
           "location": "cows/stimpy.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/supermilker.cow.js": {
           "location": "cows/supermilker.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/surgery.cow.js": {
           "location": "cows/surgery.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/suse.cow.js": {
           "location": "cows/suse.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/telebears.cow.js": {
           "location": "cows/telebears.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/three-eyes.cow.js": {
           "location": "cows/three-eyes.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/turkey.cow.js": {
           "location": "cows/turkey.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/turtle.cow.js": {
           "location": "cows/turtle.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/tux.cow.js": {
           "location": "cows/tux.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/udder.cow.js": {
           "location": "cows/udder.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/unipony-smaller.cow.js": {
           "location": "cows/unipony-smaller.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/unipony.cow.js": {
           "location": "cows/unipony.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/vader-koala.cow.js": {
           "location": "cows/vader-koala.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/vader.cow.js": {
           "location": "cows/vader.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./cows/www.cow.js": {
           "location": "cows/www.cow.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./lib/box.js": {
           "location": "lib/box.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./lib/index.js": {
           "location": "lib/index.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
+        },
+        "./lib/box": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./lib/box.js"
+        },
+        "./lib/mode": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./lib/mode.js"
+        },
+        "./cows": {
+          "compartment": "cowsayjs-v2.0.0",
+          "module": "./cows/index.js"
         },
         "./lib/mode.js": {
           "location": "lib/mode.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         },
         "./lib/utils.js": {
           "location": "lib/utils.js",
-          "parser": "cjs"
+          "parser": "pre-cjs-json"
         }
       }
     },
@@ -282,7 +542,7 @@
       "modules": {
         "./entry.js": {
           "location": "entry.js",
-          "parser": "mjs"
+          "parser": "pre-mjs-json"
         },
         "cowsayjs": {
           "compartment": "cowsayjs-v2.0.0",
