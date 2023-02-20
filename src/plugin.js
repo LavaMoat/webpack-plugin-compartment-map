@@ -64,11 +64,12 @@ class CompartmentMapPlugin {
         for (const module of compilation.chunkGraph.getChunkModulesIterable(chunk)) {
           // console.log(module.dependencies)
           const id = module.identifier()
-          // const source = compilation.codeGenerationResults.getSource(module, chunk.runtime, module.type)
+          // compilation.codeGenerationResults.get(module, chunk.runtime).sources is a Map that tends to contain the key 'javascript' 
+          const source = compilation.codeGenerationResults.get(module, chunk.runtime).sources.get(module.type.split('/')[0])
           // we dont actually want the original source
           // we may need to disable some builtin plugins to get a useable transformed source
-          const source = module.originalSource()
-          // console.log(source)
+          // const source = module.originalSource()
+          // console.log({source, t:module.type, s: compilation.codeGenerationResults.get(module, chunk.runtime).sources})
           // modules[id] = {
           //   id,
           //   dependencies: Array.from(dependencies),
