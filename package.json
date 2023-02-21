@@ -6,6 +6,7 @@
   "devDependencies": {
     "@endo/compartment-mapper": "^0.8.1",
     "@endo/zip": "^0.2.29",
+    "ava": "^5.2.0",
     "fast-json-patch": "^3.1.1",
     "nodemon": "^2.0.20",
     "patch-package": "^6.5.1",
@@ -15,7 +16,7 @@
   },
   "scripts": {
     "setup": "patch-package",
-    "test": "(cd test && ./run-test.sh)",
+    "test": "(cd test && ava ./index.js)",
     "debug": "nodemon -x 'node --inspect-brk --trace-uncaught test/after-build.js || touch test/after-build.js'"
   },
   "dependencies": {

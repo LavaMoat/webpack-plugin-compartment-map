@@ -19,12 +19,5 @@ async function main () {
   const readPowers = makeReadPowers({ fs, url });
   const { namespace } = await importArchive(readPowers.read, archiveFixture, {
     globals: { console },
-    // modules,
-    // Compartment,
   });
 }
-
-// const fixture = new URL(
-//   'fixtures-0/node_modules/app/main.js',
-//   import.meta.url,
-// ).toString();
