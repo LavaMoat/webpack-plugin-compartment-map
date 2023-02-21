@@ -1,5 +1,7 @@
 import 'ses';
 import fs from 'fs';
+import { cwd } from 'process';
+import path from 'path';
 import url from 'url';
 import { ZipReader } from '@endo/zip';
 import { makeArchive } from '@endo/compartment-mapper';
@@ -17,9 +19,10 @@ main().catch(err => {
 })
 
 async function main () {
-  const appEntryPath = new URL('fixture-0/entry.js', import.meta.url).toString();
-  const appArchivePath = new URL('dist/app.agar', import.meta.url);
-  const endoArchivePath = new URL('dist/endo-archive.agar', import.meta.url);
+  const pwd = cwd()+'/';
+  const appEntryPath = url.pathToFileURL(path.join(pwd, 'entry.js')).toString();
+  const appArchivePath = path.join(pwd, 'dist/app.agar');
+  const endoArchivePath = path.join(pwd, 'dist/endo-archive.agar');
   const readPowers = makeReadPowers({ fs, url });
   const endoArchiveBytes = await makeArchive(
     readPowers,
