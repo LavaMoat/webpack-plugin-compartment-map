@@ -1,4 +1,4 @@
-import CompartmentMapPlugin from '../../../src/plugin.js'
+import CompartmentMapPlugin from '../../../src/plugin.mjs'
 
 export default {
   entry: './entry.js',

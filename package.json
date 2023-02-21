@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "license": "MIT",
+  "main": "./src/plugin.mjs",
   "devDependencies": {
     "@endo/compartment-mapper": "^0.8.1",
     "@endo/zip": "^0.2.29",
