@@ -40,6 +40,8 @@ async function main () {
     const moduleEntry = { name, content: JSON.parse(textDecoder.decode(content)) }
     appSources[fileId] = moduleEntry
   }
+  // log app sources
+  console.log(JSON.stringify(appSources, null, 2))
   // we diff from webpack to endo, so the patch reads like a todo list ("remove this, add this")
   const diff = jsonpatch.compare(appSources, endoSources);
   for (const entry of diff) {
