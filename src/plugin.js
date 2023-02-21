@@ -11,8 +11,9 @@
 //   - use transformed source
 import { existsSync } from 'fs';
 import { dirname, isAbsolute, join, relative } from 'path';
+import { createRequire } from 'module';
+import { evadeHtmlCommentTest, evadeImportExpressionTest } from 'ses/src/transforms';
 import WebpackSources from "webpack-sources";
-import { createRequire } from 'node:module';
 import { writeZip } from '@endo/zip';
 import parserJson from '../lib/compartment-mapper/parse-json.js';
 import parserText from '../lib/compartment-mapper/parse-text.js';
@@ -31,7 +32,6 @@ import parserArchiveMjs from '../lib/compartment-mapper/parse-archive-mjs.js';
 
 const _require = createRequire(import.meta.url);
 const { RawSource } = WebpackSources;
-
 
 class CompartmentMapPlugin {
   apply(compiler) {
@@ -63,21 +63,11 @@ class CompartmentMapPlugin {
         }
         for (const module of compilation.chunkGraph.getChunkModulesIterable(chunk)) {
           // console.log(module.dependencies)
-          const id = module.identifier()
+          // const id = module.identifier()
           // const source = compilation.codeGenerationResults.getSource(module, chunk.runtime, module.type)
           // we dont actually want the original source
           // we may need to disable some builtin plugins to get a useable transformed source
           const source = module.originalSource()
-          // console.log(source)
-          // modules[id] = {
-          //   id,
-          //   dependencies: Array.from(dependencies),
-          //   type: module.type,
-          //   // source: module.type === 'javascript/auto' && module.source(),
-          //   // source: module.type === 'javascript/auto' && module._source,
-          //   source: source && source.source(),
-          //   // keys: [...Reflect.ownKeys(module), ...Reflect.ownKeys(module.__proto__)],
-          // };
           const packageData = getUnsafePackageDataForModule(module)
           const packageName = packageData.name
           const packageLabel = packageData.label
@@ -122,30 +112,17 @@ class CompartmentMapPlugin {
           } else {
             parser = module.type
           }
-          // @property {string=} [compartment]
-          // @property {string} [module]
-          // @property {string} [location]
-          // @property {Language} [parser]
-          // @property {string} [sha512] in base 16, hex
-          // @property {string} [exit]
-          // @property {string} [deferredError]
+
           const moduleDescriptor = {
             location: moduleLocation,
             parser,
           }
           compartmentDescriptor.modules[moduleLabel] = moduleDescriptor
-          // compartmentDescriptor.modules[moduleLabel] = {
-          //   compartment: packageLabel,
-          //   module: id,
-          //   // location: module.resource,
-          //   // parser: module.type,
-          // }
 
-          const moduleSourceBytes = source ? Buffer.from(source.source(), 'utf8') : Buffer.from([])
-          // packageSources[moduleLabel] = {
-          //   bytes: moduleSourceBytes,
-          //   location: moduleLabel,
-          // }
+          let moduleSource = source ? source.source() : 'source missing'
+          moduleSource = evadeHtmlCommentTest(moduleSource)
+          moduleSource = evadeImportExpressionTest(moduleSource)
+          const moduleSourceBytes = Buffer.from(moduleSource, 'utf8')
 
           const { parser: finalParser, transformedBytes, concreteRecord } = await processModuleSource(
             parser,
@@ -164,23 +141,10 @@ class CompartmentMapPlugin {
             // sha512,
           };
 
-          // need to populate scopes?
-          // dependencies are not necesarily modules, its more like a list of
-          // transforms that need to be applied including rewriting dependency names
-          // const dependencies = new Set(
-          //   module.dependencies
-          //   // convert dependency to module
-          //   .map(d => compilation.moduleGraph.getModule(d))
-          //   // ignore self references
-          //   .filter(m => m !== module)
-          // )
-          // for (const childModule of dependencies) {
           for (const dependency of module.dependencies) {
             const depModule = compilation.moduleGraph.getModule(dependency)
+            // ignore self-references
             if (depModule === module) continue
-            // console.log(dependency, Reflect.ownKeys(dependency))
-            // console.log(Reflect.ownKeys(dependency))
-            // console.log(dependency.rawRequest, dependency.request)
             const depPackageData = getUnsafePackageDataForModule(depModule)
             const depPackageLocation = depPackageData.filepath
             const depSpecifier = dependency.request
@@ -208,19 +172,8 @@ class CompartmentMapPlugin {
                 }
               }
             }
-            // let scopeDescriptor = compartmentDescriptor.scopes[childId]
-            // if (!scopeDescriptor) {
-            //   scopeDescriptor = {
-            //     compartment: depPackageName,
-            //     module: childId,
-            //   }
-            //   compartmentDescriptor.scopes[childId] = scopeDescriptor
-            // }
           }
 
-          // module.serialize({ write: (data) => console.log('serialize', data) })
-          // console.log(Reflect.ownKeys(module.codeGeneration))
-          // console.log(module.dependencies.map(d => d.constructor.name))
         }
       }
 

@@ -2,5 +2,5 @@
 set -euxo pipefail
 
 webpack
-node ./compare-compartment-map.js
+node ./compare-archive.js
 node ./after-build.js

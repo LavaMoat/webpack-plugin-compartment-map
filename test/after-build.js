@@ -14,10 +14,11 @@ main().catch(err => {
 
 async function main () {
   const archiveFixture = new URL('dist/app.agar', import.meta.url).toString();
+  // const archiveFixture = new URL('dist/endo-archive.agar', import.meta.url).toString();
 
   const readPowers = makeReadPowers({ fs, url });
   const { namespace } = await importArchive(readPowers.read, archiveFixture, {
-    // globals,
+    globals: { console },
     // modules,
     // Compartment,
   });
