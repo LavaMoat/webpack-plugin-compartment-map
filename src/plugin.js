@@ -21,15 +21,15 @@ import parserText from '../lib/compartment-mapper/parse-text.js';
 import parserBytes from '../lib/compartment-mapper/parse-bytes.js';
 import parserArchiveCjs from '../lib/compartment-mapper/parse-archive-cjs.js';
 import parserArchiveMjs from '../lib/compartment-mapper/parse-archive-mjs.js';
-  const parserForLanguage = {
-    mjs: parserArchiveMjs,
-    'pre-mjs-json': parserArchiveMjs,
-    cjs: parserArchiveCjs,
-    'pre-cjs-json': parserArchiveCjs,
-    json: parserJson,
-    text: parserText,
-    bytes: parserBytes,
-  };
+const parserForLanguage = {
+  mjs: parserArchiveMjs,
+  'pre-mjs-json': parserArchiveMjs,
+  cjs: parserArchiveCjs,
+  'pre-cjs-json': parserArchiveCjs,
+  json: parserJson,
+  text: parserText,
+  bytes: parserBytes,
+};
 
 const _require = createRequire(import.meta.url);
 const { Compilation } = Webpack;
@@ -37,7 +37,19 @@ const { RawSource } = WebpackSources;
 
 const PLUGIN_NAME = 'CompartmentMapPlugin';
 
+/** @typedef {import("webpack").Compiler} Compiler */
+/** @typedef {import("webpack").Compilation} Compilation */
+/** @typedef {import("webpack").Rules} Rules */
+/** @typedef {import("webpack").Source} Source */
+/** @typedef {import("webpack").WebpackError} WebpackError */
+/** @typedef {import("webpack").Asset} Asset */
+/** @typedef {import("webpack").AssetInfo} AssetInfo */
+
 class CompartmentMapPlugin {
+  /**
+   * @param {Compiler} compiler
+   * @returns {void}
+   */
   apply(compiler) {
     // thisCompilation: Executed while initializing the compilation, right before emitting the compilation event. This hook is not copied to child compilers.
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation) => {
