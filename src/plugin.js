@@ -215,11 +215,8 @@ async function processModuleSource (
   packageLocation,
   // readPowers,
 ) {
-  const parse = async (bytes, specifier, location, packageLocation, options) => {
-    const { parse } = parserForLanguage[language];
-    return parse(bytes, specifier, location, packageLocation, options);
-  }
-  const envelope = await parse(
+
+  const envelope = await parserForLanguage[language].parse(
     moduleBytes,
     candidateSpecifier,
     moduleLocation,
