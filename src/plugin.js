@@ -13,6 +13,7 @@ import { existsSync } from 'fs';
 import { dirname, isAbsolute, join, relative } from 'path';
 import { createRequire } from 'module';
 import { evadeHtmlCommentTest, evadeImportExpressionTest } from 'ses/src/transforms';
+import Webpack from 'webpack';
 import WebpackSources from "webpack-sources";
 import { writeZip } from '@endo/zip';
 import parserJson from '../lib/compartment-mapper/parse-json.js';
@@ -31,178 +32,177 @@ import parserArchiveMjs from '../lib/compartment-mapper/parse-archive-mjs.js';
   };
 
 const _require = createRequire(import.meta.url);
+const { Compilation } = Webpack;
 const { RawSource } = WebpackSources;
+
+const PLUGIN_NAME = 'CompartmentMapPlugin';
 
 class CompartmentMapPlugin {
   apply(compiler) {
-    // cyclonedx-webpack-plugin used this hook
-    //  compiler.hooks.thisCompilation.tap(...)
-    // followed by this hook
-    //  compilation.hooks.afterOptimizeTree.tap(...)
     // thisCompilation: Executed while initializing the compilation, right before emitting the compilation event. This hook is not copied to child compilers.
-    compiler.hooks.emit.tapAsync("CompartmentMapPlugin", async (compilation, callback) => {
-      // compilation.chunkGraph.getChunkModulesIterable(compilation.chunks[0]).forEach(module => {
-      //   // getChunkModules
+    compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation) => {
+      compilation.hooks.processAssets.tapPromise({
+          name: PLUGIN_NAME,
+          // stages: https://webpack.js.org/api/compilation-hooks/#list-of-asset-processing-stages
+          stage: Compilation.PROCESS_ASSETS_STAGE_DEV_TOOLING
+        }, async (assets) => {
+          const compartmentMapDescriptor = {
+            // tags: ['browser'],
+            // set at end of module graph walk
+            entry: null,
+            compartments: {},
+          }
+          // @property {Array<string>} tags
+          // @property {EntryDescriptor} entry
+          // @property {Record<string, CompartmentDescriptor>} compartments
+          // const modules = {}
+          const entryModules = new Set()
+          const sources = {}
 
-      const compartmentMapDescriptor = {
-        // tags: ['browser'],
-        // set at end of module graph walk
-        entry: null,
-        compartments: {},
-      }
-      // @property {Array<string>} tags
-      // @property {EntryDescriptor} entry
-      // @property {Record<string, CompartmentDescriptor>} compartments
-      // const modules = {}
-      const entryModules = new Set()
-      const sources = {}
-
-      for (const chunk of compilation.chunks) {
-        for (const entryModule of compilation.chunkGraph.getChunkEntryModulesIterable(chunk)) {
-          entryModules.add(entryModule)
-        }
-        for (const module of compilation.chunkGraph.getChunkModulesIterable(chunk)) {
-          // console.log(module.dependencies)
-          // const id = module.identifier()
-          // const source = compilation.codeGenerationResults.getSource(module, chunk.runtime, module.type)
-          // we dont actually want the original source
-          // we may need to disable some builtin plugins to get a useable transformed source
-          const source = module.originalSource()
-          const packageData = getUnsafePackageDataForModule(module)
-          const packageName = packageData.name
-          const packageLabel = packageData.label
-          const packageLocation = packageData.filepath
-          let compartmentDescriptor = compartmentMapDescriptor.compartments[packageLabel]
-          let packageSources = sources[packageLabel]
-          if (!compartmentDescriptor) {
-            //   @property {string} label
-            //   @property {Array<string>} [path] - shortest path of dependency names to this
-            //   @property {string} name - the name of the originating package suitable for
-            //   @property {string} location
-            //   @property {boolean} [retained] - whether this compartment was retained by
-            //   @property {Record<string, ModuleDescriptor>} modules
-            //   @property {Record<string, ScopeDescriptor>} scopes
-            //   @property {Record<string, Language>} parsers - language for extension
-            //   @property {Record<string, Language>} types - language for module specifier
-            //   @property {object} policy - policy specific to compartment
-            compartmentDescriptor = {
-              name: packageName,
-              label: packageLabel,
-              // mapCompartment/archives (?) use the label for the location
-              // location: packageLocation,
-              location: packageLabel,
-              modules: {},
-              // scopes: {},
-              // parsers: {},
-              // types: {},
-              // policy: null,
+          for (const chunk of compilation.chunks) {
+            for (const entryModule of compilation.chunkGraph.getChunkEntryModulesIterable(chunk)) {
+              entryModules.add(entryModule)
             }
-            compartmentMapDescriptor.compartments[packageLabel] = compartmentDescriptor
-            packageSources = sources[packageLabel] = {}
+            for (const module of compilation.chunkGraph.getChunkModulesIterable(chunk)) {
+              // console.log(module.dependencies)
+              // const id = module.identifier()
+              // const source = compilation.codeGenerationResults.getSource(module, chunk.runtime, module.type)
+              // we dont actually want the original source
+              // we may need to disable some builtin plugins to get a useable transformed source
+              const source = module.originalSource()
+              const packageData = getUnsafePackageDataForModule(module)
+              const packageName = packageData.name
+              const packageLabel = packageData.label
+              const packageLocation = packageData.filepath
+              let compartmentDescriptor = compartmentMapDescriptor.compartments[packageLabel]
+              let packageSources = sources[packageLabel]
+              if (!compartmentDescriptor) {
+                //   @property {string} label
+                //   @property {Array<string>} [path] - shortest path of dependency names to this
+                //   @property {string} name - the name of the originating package suitable for
+                //   @property {string} location
+                //   @property {boolean} [retained] - whether this compartment was retained by
+                //   @property {Record<string, ModuleDescriptor>} modules
+                //   @property {Record<string, ScopeDescriptor>} scopes
+                //   @property {Record<string, Language>} parsers - language for extension
+                //   @property {Record<string, Language>} types - language for module specifier
+                //   @property {object} policy - policy specific to compartment
+                compartmentDescriptor = {
+                  name: packageName,
+                  label: packageLabel,
+                  // mapCompartment/archives (?) use the label for the location
+                  // location: packageLocation,
+                  location: packageLabel,
+                  modules: {},
+                  // scopes: {},
+                  // parsers: {},
+                  // types: {},
+                  // policy: null,
+                }
+                compartmentMapDescriptor.compartments[packageLabel] = compartmentDescriptor
+                packageSources = sources[packageLabel] = {}
+              }
+
+              const { plain: moduleLocation, relative: moduleLabel } = getModuleLocationRelativeToPackage(module, packageLocation)
+              let parser
+              if (module.type === 'javascript/auto') {
+                parser = 'pre-cjs-json'
+                // parser = 'cjs'
+              } else if (module.type === 'javascript/esm') {
+                parser = 'pre-mjs-json'
+                // parser = 'mjs'
+              } else {
+                parser = module.type
+              }
+
+              const moduleDescriptor = {
+                location: moduleLocation,
+                parser,
+              }
+              compartmentDescriptor.modules[moduleLabel] = moduleDescriptor
+
+              let moduleSource = source ? source.source() : 'source missing'
+              moduleSource = evadeHtmlCommentTest(moduleSource)
+              moduleSource = evadeImportExpressionTest(moduleSource)
+              const moduleSourceBytes = Buffer.from(moduleSource, 'utf8')
+
+              const { parser: finalParser, transformedBytes, concreteRecord } = await processModuleSource(
+                parser,
+                moduleSourceBytes,
+                moduleLabel,
+                moduleLocation,
+                packageLocation,
+              )
+
+              packageSources[moduleLabel] = {
+                location: moduleLocation,
+                sourceLocation: moduleLocation,
+                parser: finalParser,
+                bytes: transformedBytes,
+                record: concreteRecord,
+                // sha512,
+              };
+
+              for (const dependency of module.dependencies) {
+                const depModule = compilation.moduleGraph.getModule(dependency)
+                // ignore self-references
+                if (depModule === module) continue
+                const depPackageData = getUnsafePackageDataForModule(depModule)
+                const depPackageLocation = depPackageData.filepath
+                const depSpecifier = dependency.request
+                // check if foreign package
+                if (depPackageLocation !== packageLocation) {
+                  // check if recorded yet
+                  if (compartmentDescriptor.modules[depSpecifier] === undefined) {
+                    const depPackageLabel = depPackageData.label
+                    const { relative: depLabel } = getModuleLocationRelativeToPackage(depModule, depPackageLocation)
+                    compartmentDescriptor.modules[depSpecifier] = {
+                      compartment: depPackageLabel,
+                      module: depLabel,
+                    }
+                  }
+                } else {
+                  // domestic package
+                  const resolvedLabel = join(dirname(moduleLocation), depSpecifier)
+                  const relativeLabel = resolvedLabel.startsWith('.') ? resolvedLabel : `./${resolvedLabel}`
+                  // check if raw specifier recorded yet
+                  if (compartmentDescriptor.modules[relativeLabel] === undefined) {
+                    const { relative: depLabel } = getModuleLocationRelativeToPackage(depModule, depPackageLocation)
+                    compartmentDescriptor.modules[relativeLabel] = {
+                      compartment: packageLabel,
+                      module: depLabel,
+                    }
+                  }
+                }
+              }
+            }
           }
 
-          const { plain: moduleLocation, relative: moduleLabel } = getModuleLocationRelativeToPackage(module, packageLocation)
-          let parser
-          if (module.type === 'javascript/auto') {
-            parser = 'pre-cjs-json'
-            // parser = 'cjs'
-          } else if (module.type === 'javascript/esm') {
-            parser = 'pre-mjs-json'
-            // parser = 'mjs'
-          } else {
-            parser = module.type
+          if (entryModules.size !== 1) {
+            throw new Error('compartment map plugin only supports a single entry module')
+          }
+          const primaryEntryModule = entryModules.values().next().value
+          const primaryEntryPackageData = getUnsafePackageDataForModule(primaryEntryModule)
+          const { relative: entrySpecifier } = getModuleLocationRelativeToPackage(primaryEntryModule, primaryEntryPackageData.filepath)
+          compartmentMapDescriptor.entry = {
+            module: entrySpecifier,
+            compartment: primaryEntryPackageData.label,
           }
 
-          const moduleDescriptor = {
-            location: moduleLocation,
-            parser,
-          }
-          compartmentDescriptor.modules[moduleLabel] = moduleDescriptor
-
-          let moduleSource = source ? source.source() : 'source missing'
-          moduleSource = evadeHtmlCommentTest(moduleSource)
-          moduleSource = evadeImportExpressionTest(moduleSource)
-          const moduleSourceBytes = Buffer.from(moduleSource, 'utf8')
-
-          const { parser: finalParser, transformedBytes, concreteRecord } = await processModuleSource(
-            parser,
-            moduleSourceBytes,
-            moduleLabel,
-            moduleLocation,
-            packageLocation,
-          )
-
-          packageSources[moduleLabel] = {
-            location: moduleLocation,
-            sourceLocation: moduleLocation,
-            parser: finalParser,
-            bytes: transformedBytes,
-            record: concreteRecord,
-            // sha512,
+          const compartmentMapDescriptorSerialized = JSON.stringify(compartmentMapDescriptor, null, 2);
+          const compartmentMapBytes = Buffer.from(compartmentMapDescriptorSerialized, 'utf8');
+          assets["compartment-map.json"] = {
+            source: () => compartmentMapDescriptorSerialized,
+            size: () => compartmentMapDescriptorSerialized.length
           };
 
-          for (const dependency of module.dependencies) {
-            const depModule = compilation.moduleGraph.getModule(dependency)
-            // ignore self-references
-            if (depModule === module) continue
-            const depPackageData = getUnsafePackageDataForModule(depModule)
-            const depPackageLocation = depPackageData.filepath
-            const depSpecifier = dependency.request
-            // check if foreign package
-            if (depPackageLocation !== packageLocation) {
-              // check if recorded yet
-              if (compartmentDescriptor.modules[depSpecifier] === undefined) {
-                const depPackageLabel = depPackageData.label
-                const { relative: depLabel } = getModuleLocationRelativeToPackage(depModule, depPackageLocation)
-                compartmentDescriptor.modules[depSpecifier] = {
-                  compartment: depPackageLabel,
-                  module: depLabel,
-                }
-              }
-            } else {
-              // domestic package
-              const resolvedLabel = join(dirname(moduleLocation), depSpecifier)
-              const relativeLabel = resolvedLabel.startsWith('.') ? resolvedLabel : `./${resolvedLabel}`
-              // check if raw specifier recorded yet
-              if (compartmentDescriptor.modules[relativeLabel] === undefined) {
-                const { relative: depLabel } = getModuleLocationRelativeToPackage(depModule, depPackageLocation)
-                compartmentDescriptor.modules[relativeLabel] = {
-                  compartment: packageLabel,
-                  module: depLabel,
-                }
-              }
-            }
-          }
+          const archive = writeZip();
+          await archive.write('compartment-map.json', compartmentMapBytes);
+          await addSourcesToArchive(archive, sources);
+          const bytes = await archive.snapshot();
 
-        }
-      }
-
-      if (entryModules.size !== 1) {
-        throw new Error('compartment map plugin only supports a single entry module')
-      }
-      const primaryEntryModule = entryModules.values().next().value
-      const primaryEntryPackageData = getUnsafePackageDataForModule(primaryEntryModule)
-      const { relative: entrySpecifier } = getModuleLocationRelativeToPackage(primaryEntryModule, primaryEntryPackageData.filepath)
-      compartmentMapDescriptor.entry = {
-        module: entrySpecifier,
-        compartment: primaryEntryPackageData.label,
-      }
-
-      const compartmentMapDescriptorSerialized = JSON.stringify(compartmentMapDescriptor, null, 2);
-      const compartmentMapBytes = Buffer.from(compartmentMapDescriptorSerialized, 'utf8');
-      compilation.assets["compartment-map.json"] = {
-        source: () => compartmentMapDescriptorSerialized,
-        size: () => compartmentMapDescriptorSerialized.length
-      };
-
-      const archive = writeZip();
-      await archive.write('compartment-map.json', compartmentMapBytes);
-      await addSourcesToArchive(archive, sources);
-      const bytes = await archive.snapshot();
-
-      compilation.assets["app.agar"] = new RawSource(Buffer.from(bytes));
-
-      callback();
+          assets["app.agar"] = new RawSource(Buffer.from(bytes));
+      });
     });
   }
 }
