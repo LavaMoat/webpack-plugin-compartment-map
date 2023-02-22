@@ -1,5 +1,5 @@
 {
-  "name": "webpack-plugin-compartment-map",
+  "name": "@lavamoat/webpack-plugin-endo-archive",
   "version": "1.0.0",
   "type": "module",
   "license": "MIT",
