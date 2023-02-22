@@ -17,7 +17,7 @@
   },
   "scripts": {
     "setup": "patch-package",
-    "test": "(cd test && ava ./index.js)",
+    "test": "(cd test && ava -T 20s ./index.js)",
     "test:snapshot": "(cd test && ava -T 20s -u ./index.js)",
     "debug": "nodemon -x 'node --inspect-brk --trace-uncaught test/after-build.js || touch test/after-build.js'"
   },
