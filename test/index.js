@@ -13,7 +13,6 @@ for (const dir of fs.readdirSync(fixturesDir)) {
     const output = spawn.spawnSync(path.join(__dirname, 'run-test.sh'), [], {
       cwd: path.join(fixturesDir, dir),
     });
-    console.log(output);
     console.log(output.stdout.toString());
     console.log(output.stderr.toString());
     t.snapshot(output.status);
