@@ -2,7 +2,6 @@
   "name": "@lavamoat/webpack-plugin-endo-archive",
   "version": "1.0.0",
   "type": "module",
-  "license": "MIT",
   "main": "./src/plugin.mjs",
   "devDependencies": {
     "@endo/compartment-mapper": "^0.8.1",
@@ -26,5 +25,11 @@
   },
   "engines": {
     "node": ">=16.0.0"
+  },
+  "license": "MIT",
+  "private": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }
