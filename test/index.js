@@ -9,12 +9,12 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const fixturesDir = path.join(__dirname, 'fixtures');
 
 for (const dir of fs.readdirSync(fixturesDir)) {
-  test(dir, async t => {
+  test(dir, t => {
     const output = spawn.spawnSync(path.join(__dirname, 'run-test.sh'), [], {
       cwd: path.join(fixturesDir, dir),
     });
-    console.log(output.stdout.toString());
-    console.log(output.stderr.toString());
     t.snapshot(output.status);
+    t.snapshot(output.stderr.toString());
+    t.snapshot(output.stdout.toString());
   })
 }
