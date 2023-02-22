@@ -1,7 +1,7 @@
 #!/bin/bash
-set -euxo pipefail
+set -euo pipefail
 
-yarn --frozen-lockfile
+yarn --frozen-lockfile >& /dev/null
 webpack >& /dev/null
 node ../../compare-archive.js
 node ../../after-build.js
