@@ -1,6 +1,6 @@
 {
   "name": "@lavamoat/webpack-plugin-endo-archive",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "main": "./src/plugin.mjs",
   "devDependencies": {
