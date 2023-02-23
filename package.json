@@ -5,13 +5,10 @@
   "main": "./src/plugin.mjs",
   "devDependencies": {
     "@endo/compartment-mapper": "^0.8.1",
-    "@endo/zip": "^0.2.29",
     "ava": "^5.2.0",
     "fast-json-patch": "^3.1.1",
     "nodemon": "^2.0.20",
     "patch-package": "^6.5.1",
-    "ses": "^0.18.1",
-    "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1"
   },
   "scripts": {
@@ -21,7 +18,11 @@
   },
   "dependencies": {
     "@endo/cjs-module-analyzer": "^0.2.29",
-    "@endo/static-module-record": "^0.7.16"
+    "@endo/static-module-record": "^0.7.16",
+    "@endo/zip": "^0.2.29",
+    "ses": "^0.18.1",
+    "webpack": "^5.75.0",
+    "webpack-sources": "^3.2.3"
   },
   "engines": {
     "node": ">=16.0.0"
