@@ -79,9 +79,9 @@ class CompartmentMapPlugin {
               // console.log(module.dependencies)
               // const id = module.identifier()
               // const source = compilation.codeGenerationResults.getSource(module, chunk.runtime, module.type)
-              // we dont actually want the original source
-              // we may need to disable some builtin plugins to get a useable transformed source
-              const source = module.originalSource()
+              // TODO: handle additional cases
+              // https://github.com/bensampaio/external-svg-sprite-loader/blob/c0b7baaf89367efa5d768d844e3b29769acfbefe/lib/SvgStorePlugin.js#L220
+              const source = compilation.codeGenerationResults.getSource(module, chunk.runtime, 'javascript');
               const packageData = getUnsafePackageDataForModule(module)
               const packageName = packageData.name
               const packageLabel = packageData.label

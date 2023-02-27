@@ -1,0 +1,13 @@
+{
+  "name": "fixture-0",
+  "type": "module",
+  "dependencies": {
+    "cowsayjs": "^2.0.0"
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "terser-webpack-plugin": "^5.3.6"
+  }
+}
