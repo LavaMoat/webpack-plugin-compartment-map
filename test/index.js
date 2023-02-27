@@ -21,3 +21,10 @@ for (const dir of fs.readdirSync(fixturesDir)) {
     t.snapshot(output.stdout.toString());
   })
 }
+
+test('minified is smaller than non-minified', t => {
+  const [unminSize, minSize] = ([
+    'app-mjs', 'app-mjs-minified'
+  ]).map(f => fs.statSync(path.join(fixturesDir, f, 'dist/app.agar')).size);
+  t.assert(minSize < unminSize, `app-mjs-minified ${minSize}b not smaller than app-mjs ${unminSize}b`);
+});
