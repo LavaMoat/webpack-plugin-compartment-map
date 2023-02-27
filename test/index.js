@@ -16,8 +16,8 @@ for (const dir of fs.readdirSync(fixturesDir)) {
     const output = spawn.spawnSync(path.join(__dirname, 'run-test.sh'), [], {
       cwd: path.join(fixturesDir, dir),
     });
-    t.snapshot(output.status);
     t.snapshot(output.stderr.toString());
+    t.snapshot(output.status);
     t.snapshot(output.stdout.toString());
   })
 }
