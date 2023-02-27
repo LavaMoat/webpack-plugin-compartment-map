@@ -9,6 +9,9 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const fixturesDir = path.join(__dirname, 'fixtures');
 
 for (const dir of fs.readdirSync(fixturesDir)) {
+  if (!fs.existsSync(path.join(fixturesDir, dir, 'package.json'))) {
+    continue;
+  }
   test(dir, t => {
     const output = spawn.spawnSync(path.join(__dirname, 'run-test.sh'), [], {
       cwd: path.join(fixturesDir, dir),
