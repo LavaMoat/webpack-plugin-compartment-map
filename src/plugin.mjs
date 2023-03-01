@@ -123,6 +123,8 @@ class CompartmentMapPlugin {
               } else if (module.type === 'javascript/esm') {
                 parser = 'pre-mjs-json'
                 // parser = 'mjs'
+              } else if (module.type === 'runtime') {
+                parser = 'pre-cjs-json'
               } else {
                 parser = module.type
               }
