@@ -277,25 +277,43 @@ async function addSourcesToArchive (archive, sources) {
   }
 };
 
+const getModulePath = (module) => {
+  if (module.resource) {
+    return module.resource;
+  }
+  // this seems to primarily be webpack internal "runtimes"
+  // webpack/runtime/compat get default export
+  // webpack/runtime/define property getters
+  // webpack/runtime/hasOwnProperty shorthand
+  const id = module.identifier();
+
+  if (id.startsWith('webpack/')) {
+    return `webpack://${id}`;
+  }
+  // ESM/async imports
+  if (id.startsWith('javascript/esm|')) {
+    return id.split('|')[1]
+  }
+  if (id.match(/^\/.*\|(eager|weak|lazy|lazy-once)\|.*\|/)) {
+    const m = id.split('|')[0]
+    // TODO: lookup
+    return m.includes('.') ? m : join(m, 'index.js');
+  }
+  throw new Error(`could not find file path for module ${id}`)
+}
+
 // insecure self-name
 function getUnsafePackageDataForModule(module) {
-  const filePath = module.resource
-  if (!filePath) {
-    // this seems to primarily be webpack internal "runtimes"
-    // webpack/runtime/compat get default export
-    // webpack/runtime/define property getters
-    // webpack/runtime/hasOwnProperty shorthand
-    const id = module.identifier()
-    if (id.startsWith('webpack/')) {
-      return {
-        name: `webpack:${id}`,
-        label: `webpack:${id}`,
-        filepath: `webpack://${id}`,
-      }
+  const filePath = getModulePath(module);
+  if (filePath.startsWith('webpack://')) {
+    const name = `webpack:${module.identifier()}`;
+    return {
+      name,
+      label: name,
+      filepath: filePath,
     }
-    throw new Error(`could not find file path for module ${id}`)
   }
-  const packageDescription = getUnsafePackageInfo(module.resource)
+  const packageDescription = getUnsafePackageInfo(filePath)
   if (!packageDescription) {
     throw new Error(`could not find package.json for module ${module.identifier()}`)
   }
@@ -306,7 +324,7 @@ function getUnsafePackageDataForModule(module) {
   const label = `${packageJson.name}-v${packageJson.version}`
   return {
     name: packageJson.name,
-    label: label,
+    label,
     filepath: packageDescription.path,
   }
 }
