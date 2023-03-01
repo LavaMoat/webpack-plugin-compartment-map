@@ -126,7 +126,9 @@ class CompartmentMapPlugin {
                 parser = 'pre-cjs-json'
                 // parser = 'cjs'
               } else if (module.type === 'javascript/esm') {
-                parser = 'pre-mjs-json'
+                parser = module.constructor.name === 'ConcatenatedModule'
+                  ? 'pre-cjs-json'
+                  : 'pre-mjs-json'
                 // parser = 'mjs'
               } else if (module.type === 'runtime') {
                 parser = 'pre-cjs-json'
@@ -140,7 +142,7 @@ class CompartmentMapPlugin {
               }
               compartmentDescriptor.modules[moduleLabel] = moduleDescriptor
 
-              let moduleSource = source ? source.source() : 'source missing'
+              let moduleSource = source ? source.source() : (module.rootModule.originalSource()?.source || 'source missing')
               moduleSource = evadeHtmlCommentTest(moduleSource)
               moduleSource = evadeImportExpressionTest(moduleSource)
               const moduleSourceBytes = Buffer.from(moduleSource, 'utf8')
@@ -253,11 +255,15 @@ async function processModuleSource (
 }
 
 function getModuleLocationRelativeToPackage (module, packageLocation) {
-  if (module.resource === undefined) {
-    const id = module.identifier()
-    return { plain: id, relative: id }
+  let p = module.resource;
+  if(!p) {
+    p = module.identifier();
+    if (!p.startsWith('javascript/esm|')) {
+      return { plain: id, relative: id };
+    }
+    p = p.split('|')[1];
   }
-  const locPlain = relative(packageLocation, module.resource)
+  const locPlain = relative(packageLocation, p)
   const locRelative = locPlain.startsWith('.') ? locPlain : `./${locPlain}`
   return { plain: locPlain, relative: locRelative }
 }
