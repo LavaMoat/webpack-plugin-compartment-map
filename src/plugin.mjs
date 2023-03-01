@@ -21,8 +21,10 @@ import parserText from '../lib/compartment-mapper/parse-text.js';
 import parserBytes from '../lib/compartment-mapper/parse-bytes.js';
 import parserArchiveCjs from '../lib/compartment-mapper/parse-archive-cjs.js';
 import parserArchiveMjs from '../lib/compartment-mapper/parse-archive-mjs.js';
+
 const parserForLanguage = {
   mjs: parserArchiveMjs,
+  //runtime: parserArchiveCjs,
   'pre-mjs-json': parserArchiveMjs,
   cjs: parserArchiveCjs,
   'pre-cjs-json': parserArchiveCjs,
@@ -84,6 +86,9 @@ class CompartmentMapPlugin {
               const source = module.originalSource()
               const packageData = getUnsafePackageDataForModule(module)
               const packageName = packageData.name
+              if (packageName.startsWith('webpack:')) {
+                continue;
+              }
               const packageLabel = packageData.label
               const packageLocation = packageData.filepath
               let compartmentDescriptor = compartmentMapDescriptor.compartments[packageLabel]
@@ -121,8 +126,12 @@ class CompartmentMapPlugin {
                 parser = 'pre-cjs-json'
                 // parser = 'cjs'
               } else if (module.type === 'javascript/esm') {
-                parser = 'pre-mjs-json'
+                parser = module.constructor.name === 'ConcatenatedModule'
+                  ? 'pre-cjs-json'
+                  : 'pre-mjs-json'
                 // parser = 'mjs'
+              } else if (module.type === 'runtime') {
+                parser = 'pre-cjs-json'
               } else {
                 parser = module.type
               }
@@ -133,7 +142,7 @@ class CompartmentMapPlugin {
               }
               compartmentDescriptor.modules[moduleLabel] = moduleDescriptor
 
-              let moduleSource = source ? source.source() : 'source missing'
+              let moduleSource = source ? source.source() : (module.rootModule.originalSource()?.source || 'source missing')
               moduleSource = evadeHtmlCommentTest(moduleSource)
               moduleSource = evadeImportExpressionTest(moduleSource)
               const moduleSourceBytes = Buffer.from(moduleSource, 'utf8')
@@ -157,8 +166,8 @@ class CompartmentMapPlugin {
 
               for (const dependency of module.dependencies) {
                 const depModule = compilation.moduleGraph.getModule(dependency)
-                // ignore self-references
-                if (depModule === module) continue
+                // ignore self-references and dynamic imports
+                if (depModule === module || !depModule) continue
                 const depPackageData = getUnsafePackageDataForModule(depModule)
                 const depPackageLocation = depPackageData.filepath
                 const depSpecifier = dependency.request
@@ -246,11 +255,15 @@ async function processModuleSource (
 }
 
 function getModuleLocationRelativeToPackage (module, packageLocation) {
-  if (module.resource === undefined) {
-    const id = module.identifier()
-    return { plain: id, relative: id }
+  let p = module.resource;
+  if(!p) {
+    p = module.identifier();
+    if (!p.startsWith('javascript/esm|')) {
+      return { plain: id, relative: id };
+    }
+    p = p.split('|')[1];
   }
-  const locPlain = relative(packageLocation, module.resource)
+  const locPlain = relative(packageLocation, p)
   const locRelative = locPlain.startsWith('.') ? locPlain : `./${locPlain}`
   return { plain: locPlain, relative: locRelative }
 }
@@ -260,6 +273,7 @@ const resolveLocation = (rel, abs) => new URL(rel, abs).toString();
 async function addSourcesToArchive (archive, sources) {
   for (const compartment of Object.keys(sources).sort()) {
     const modules = sources[compartment];
+    //const compartmentLocation = resolveLocation(`${compartment.replace(/^webpack:webpack\//, '')}/`, 'file:///');
     const compartmentLocation = resolveLocation(`${compartment}/`, 'file:///');
     for (const specifier of Object.keys(modules).sort()) {
       const { bytes, location } = modules[specifier];
@@ -275,25 +289,43 @@ async function addSourcesToArchive (archive, sources) {
   }
 };
 
+const getModulePath = (module) => {
+  if (module.resource) {
+    return module.resource;
+  }
+  // this seems to primarily be webpack internal "runtimes"
+  // webpack/runtime/compat get default export
+  // webpack/runtime/define property getters
+  // webpack/runtime/hasOwnProperty shorthand
+  const id = module.identifier();
+
+  if (id.startsWith('webpack/')) {
+    return `webpack://${id}`;
+  }
+  // ESM/async imports
+  if (id.startsWith('javascript/esm|')) {
+    return id.split('|')[1]
+  }
+  if (id.match(/^\/.*\|(eager|weak|lazy|lazy-once)\|.*\|/)) {
+    const m = id.split('|')[0]
+    // TODO: lookup
+    return m.includes('.') ? m : join(m, 'index.js');
+  }
+  throw new Error(`could not find file path for module ${id}`)
+}
+
 // insecure self-name
 function getUnsafePackageDataForModule(module) {
-  const filePath = module.resource
-  if (!filePath) {
-    // this seems to primarily be webpack internal "runtimes"
-    // webpack/runtime/compat get default export
-    // webpack/runtime/define property getters
-    // webpack/runtime/hasOwnProperty shorthand
-    const id = module.identifier()
-    if (id.startsWith('webpack/')) {
-      return {
-        name: `webpack:${id}`,
-        label: `webpack:${id}`,
-        filepath: `webpack://${id}`,
-      }
+  const filePath = getModulePath(module);
+  if (filePath.startsWith('webpack://')) {
+    const name = `webpack:${module.identifier()}`;
+    return {
+      name,
+      label: name,
+      filepath: filePath,
     }
-    throw new Error(`could not find file path for module ${id}`)
   }
-  const packageDescription = getUnsafePackageInfo(module.resource)
+  const packageDescription = getUnsafePackageInfo(filePath)
   if (!packageDescription) {
     throw new Error(`could not find package.json for module ${module.identifier()}`)
   }
@@ -304,7 +336,7 @@ function getUnsafePackageDataForModule(module) {
   const label = `${packageJson.name}-v${packageJson.version}`
   return {
     name: packageJson.name,
-    label: label,
+    label,
     filepath: packageDescription.path,
   }
 }
