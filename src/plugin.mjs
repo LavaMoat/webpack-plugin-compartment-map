@@ -21,8 +21,10 @@ import parserText from '../lib/compartment-mapper/parse-text.js';
 import parserBytes from '../lib/compartment-mapper/parse-bytes.js';
 import parserArchiveCjs from '../lib/compartment-mapper/parse-archive-cjs.js';
 import parserArchiveMjs from '../lib/compartment-mapper/parse-archive-mjs.js';
+
 const parserForLanguage = {
   mjs: parserArchiveMjs,
+  //runtime: parserArchiveCjs,
   'pre-mjs-json': parserArchiveMjs,
   cjs: parserArchiveCjs,
   'pre-cjs-json': parserArchiveCjs,
@@ -84,6 +86,9 @@ class CompartmentMapPlugin {
               const source = module.originalSource()
               const packageData = getUnsafePackageDataForModule(module)
               const packageName = packageData.name
+              if (packageName.startsWith('webpack:')) {
+                continue;
+              }
               const packageLabel = packageData.label
               const packageLocation = packageData.filepath
               let compartmentDescriptor = compartmentMapDescriptor.compartments[packageLabel]
@@ -159,8 +164,8 @@ class CompartmentMapPlugin {
 
               for (const dependency of module.dependencies) {
                 const depModule = compilation.moduleGraph.getModule(dependency)
-                // ignore self-references
-                if (depModule === module) continue
+                // ignore self-references and dynamic imports
+                if (depModule === module || !depModule) continue
                 const depPackageData = getUnsafePackageDataForModule(depModule)
                 const depPackageLocation = depPackageData.filepath
                 const depSpecifier = dependency.request
@@ -262,6 +267,7 @@ const resolveLocation = (rel, abs) => new URL(rel, abs).toString();
 async function addSourcesToArchive (archive, sources) {
   for (const compartment of Object.keys(sources).sort()) {
     const modules = sources[compartment];
+    //const compartmentLocation = resolveLocation(`${compartment.replace(/^webpack:webpack\//, '')}/`, 'file:///');
     const compartmentLocation = resolveLocation(`${compartment}/`, 'file:///');
     for (const specifier of Object.keys(modules).sort()) {
       const { bytes, location } = modules[specifier];
